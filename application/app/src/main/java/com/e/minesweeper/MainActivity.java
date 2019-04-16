@@ -19,7 +19,8 @@ public class MainActivity extends Activity {
 
     public static Boolean flagEnabled = false;
     private static CountDownTimer countDownTimer = null;
-    public static int flagsCount = 10;
+    private static final int DEFAULT_FLAG_COUNT = 10;
+    public static int flagsCount = DEFAULT_FLAG_COUNT;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -88,9 +89,9 @@ public class MainActivity extends Activity {
     }
 
     private void resetFlags() {
-        flagsCount = 10;
+        flagsCount = DEFAULT_FLAG_COUNT;
         TextView textViewFlags = (TextView) findViewById(R.id.textViewFlags);
-        textViewFlags.setText("Flags remaining: 10");
+        textViewFlags.setText("Flags remaining: " + flagsCount);
     }
 
     /**

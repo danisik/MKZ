@@ -1,6 +1,12 @@
 package com.e.minesweeper;
 
 import android.content.Context;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
+import android.media.SoundPool;
+import android.media.effect.Effect;
+import android.os.CountDownTimer;
+import android.provider.MediaStore;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -14,6 +20,11 @@ public class GameEngine {
     public static final int WIDTH = 10;
     public static final int HEIGHT = 13;
 
+    private static MediaPlayer player = null;
+    private static final int WON_ID = R.raw.win;
+    private static final int LOST_ID = R.raw.lose;
+    private SoundPool soundPool = null;
+
     private Context context;
 
     private Cell[][] MinesweeperGrid = new Cell[WIDTH][HEIGHT];
@@ -25,7 +36,9 @@ public class GameEngine {
         return instance;
     }
 
-    private GameEngine(){ }
+    private GameEngine(){
+
+    }
 
     /**
      * Create a new game area
@@ -133,8 +146,14 @@ public class GameEngine {
 
         if( bombNotFound == 0 && notRevealed == 0 ){
             Toast.makeText(context,"Game won", Toast.LENGTH_SHORT).show();
+            playSound(WON_ID);
         }
         return false;
+    }
+
+    private void playSound(int id) {
+        player = MediaPlayer.create(context, id);
+        player.start();
     }
 
     /**
@@ -171,5 +190,6 @@ public class GameEngine {
                 getCellAt(x,y).setRevealed();
             }
         }
+        playSound(LOST_ID);
     }
 }
